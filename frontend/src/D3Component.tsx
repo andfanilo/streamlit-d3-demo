@@ -20,6 +20,7 @@ const D3Component = (props: ComponentProps) => {
 
     const ref = useRef(null)
     const {svgWidth, svgHeight, margin, data}: PythonArgs = props.args
+    const transitionMillisec = 1200
 
     const xScale = d3.scaleLinear()
         .domain([0, d3.max(data, (d: any) => d[0])])
@@ -51,15 +52,14 @@ const D3Component = (props: ComponentProps) => {
         const xAxis = (g: any) => g.call(d3.axisBottom(xScale))
         const yAxis = (g: any) => g.call(d3.axisLeft(yScale))
 
-        svgElement.select(".xAxis").transition().duration(1200).call(xAxis);
-        svgElement.select(".yAxis").transition().duration(1200).call(yAxis);
+        svgElement.select(".xAxis").transition().duration(transitionMillisec).call(xAxis);
+        svgElement.select(".yAxis").transition().duration(transitionMillisec).call(yAxis);
     }, [xScale, yScale])
 
-    // update data
+    // update circles
     useEffect(() => {
         const svgElement = d3.select(ref.current)
 
-        // update circles
         svgElement.select(".circles").selectAll("circle")
             .data(data, (d: any) => d)
             .join(
@@ -67,29 +67,33 @@ const D3Component = (props: ComponentProps) => {
                     enter.append("circle")
                         .attr("cx", (d: any) => xScale(d[0]))
                         .attr("cy", (d: any) => yScale(d[1]))
+                        .attr("fill", "cornflowerblue")
                         .attr("r", 0)
-                        .attr("fill", "lightgrey")
-                        .call(enter => (
-                            enter.transition().duration(1200)
+                        .call(enter =>
+                            enter.transition().duration(transitionMillisec)
                                 .attr("r", 15)
-                                .attr("fill", "cornflowerblue")
-                                .style("opacity", 1)
-                        ))
+                        )
                 ),
-                update => update,
+                update => update.call(update =>
+                    update.transition().duration(transitionMillisec)
+                        .attr("cy", (d: any) => yScale(d[1]))
+                        .attr("r", 15)
+                ),
                 exit => (
-                    exit.attr("fill", "tomato")
-                        .call(exit => (
-                            exit.transition().duration(600)
-                                .attr("r", 0)
-                                .attr("fill", "lightgrey")
-                                .style("opacity", 0)
-                                .remove()
-                        ))
+                    exit.call(exit =>
+                        exit.transition().duration(transitionMillisec / 2)
+                            .attr("r", 0)
+                            .attr("fill", "tomato")
+                            .style("opacity", 0)
+                            .remove()
+                    )
                 ),
             )
+    }, [data, xScale, yScale])
 
-        // update line
+    // update line
+    useEffect(() => {
+        const svgElement = d3.select(ref.current)
         svgElement.select(".line").selectAll("path")
             .data([data], (d: any) => d)
             .join(
@@ -100,7 +104,7 @@ const D3Component = (props: ComponentProps) => {
                 update => update,
                 exit => exit.remove()
             )
-    })
+    }, [data, line])
 
     // just in case, update height
     useEffect(() => {
