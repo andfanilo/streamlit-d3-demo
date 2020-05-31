@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from "react"
 import {ComponentProps, Streamlit, withStreamlitConnection,} from "./streamlit"
 import * as d3 from "d3";
 
-interface D3Margin {
+interface d3Margin {
     top: number
     bottom: number
     left: number
@@ -12,7 +12,7 @@ interface D3Margin {
 interface PythonArgs {
     svgWidth: number
     svgHeight: number
-    margin: D3Margin
+    margin: d3Margin
     data: Array<Array<[number, number]>>
 }
 
@@ -21,7 +21,6 @@ const D3Component = (props: ComponentProps) => {
     const ref = useRef(null)
     const {svgWidth, svgHeight, margin, data}: PythonArgs = props.args
 
-    // study for typîng max https://stackoverflow.com/questions/53480421/d3-max-in-typescript-returns-a-string
     const xScale = d3.scaleLinear()
         .domain([0, d3.max(data, (d: any) => d[0])])
         .range([margin.left, svgWidth - margin.right])
@@ -49,13 +48,11 @@ const D3Component = (props: ComponentProps) => {
     useEffect(() => {
         const svgElement = d3.select(ref.current)
 
-        const xAxis = (g: any) => g
-            .call(d3.axisBottom(xScale))
-        const yAxis = (g: any) => g
-            .call(d3.axisLeft(yScale))
+        const xAxis = (g: any) => g.call(d3.axisBottom(xScale))
+        const yAxis = (g: any) => g.call(d3.axisLeft(yScale))
 
-        svgElement.select(".xAxis").call(xAxis);
-        svgElement.select(".yAxis").call(yAxis);
+        svgElement.select(".xAxis").transition().duration(1200).call(xAxis);
+        svgElement.select(".yAxis").transition().duration(1200).call(yAxis);
     }, [xScale, yScale])
 
     // update data
@@ -83,7 +80,7 @@ const D3Component = (props: ComponentProps) => {
                 exit => (
                     exit.attr("fill", "tomato")
                         .call(exit => (
-                            exit.transition().duration(1200)
+                            exit.transition().duration(600)
                                 .attr("r", 0)
                                 .attr("fill", "lightgrey")
                                 .style("opacity", 0)
@@ -105,10 +102,10 @@ const D3Component = (props: ComponentProps) => {
             )
     })
 
-    // in case, update height
+    // just in case, update height
     useEffect(() => {
         Streamlit.setFrameHeight()
-    })
+    }, [svgHeight])
 
     return (
         <svg

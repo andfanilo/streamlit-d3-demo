@@ -13,6 +13,7 @@ D3 :
 * https://observablehq.com/@d3/margin-convention
 * https://wattenberger.com/blog/d3
 * https://wattenberger.com/blog/d3-interactive-charts
+* https://spin.atomicobject.com/2017/07/20/d3-react-typescript/
 
 React hooks :
 * https://wattenberger.com/blog/react-and-d3
