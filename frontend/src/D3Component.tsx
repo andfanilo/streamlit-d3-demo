@@ -51,23 +51,25 @@ const D3Component = (props: ComponentProps) => {
         svgElement.append("g").classed('circles', true)
         svgElement.append("g").classed('line', true)
         svgElement.append("g")
-            .classed('xAxis', true)
-            .attr("transform", `translate(0, ${svgHeight - margin.bottom})`)
+            .classed('x-axis', true)
         svgElement.append("g")
-            .classed('yAxis', true)
-            .attr("transform", `translate(${margin.left}, 0)`)
-    }, [margin.bottom, margin.left, svgHeight])
+            .classed('y-axis', true)
+    }, [])
 
     // create / update axis
     useEffect(() => {
         const svgElement = d3.select(ref.current)
         const [xScale, yScale] = buildScales(props.args)
 
-        const xAxis = (g: any) => g.call(d3.axisBottom(xScale))
-        const yAxis = (g: any) => g.call(d3.axisLeft(yScale))
+        const xAxis = (g: any) => g.attr("transform", `translate(0, ${svgHeight - margin.bottom})`)
+            .transition().duration(transitionMillisec)
+            .call(d3.axisBottom(xScale))
+        const yAxis = (g: any) => g.attr("transform", `translate(${margin.left}, 0)`)
+            .transition().duration(transitionMillisec)
+            .call(d3.axisLeft(yScale))
 
-        svgElement.select(".xAxis").transition().duration(transitionMillisec).call(xAxis);
-        svgElement.select(".yAxis").transition().duration(transitionMillisec).call(yAxis);
+        svgElement.select(".x-axis").call(xAxis);
+        svgElement.select(".y-axis").call(yAxis);
     })
 
     // create / update circles
@@ -129,9 +131,9 @@ const D3Component = (props: ComponentProps) => {
                 update => update
                     .attr("opacity", 0.2)
                     .call(el =>
-                    el.transition().duration(transitionMillisec)
-                        .attr("d", (d: any) => line(d)).attr("opacity", 1)
-                ),
+                        el.transition().duration(transitionMillisec)
+                            .attr("d", (d: any) => line(d)).attr("opacity", 1)
+                    ),
             )
     })
 
