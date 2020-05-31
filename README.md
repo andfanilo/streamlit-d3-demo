@@ -8,6 +8,11 @@ Would also like to try :
 
 ## References
 
+D3 :
+* https://observablehq.com/@d3/learn-d3
+* https://wattenberger.com/blog/d3
+* https://wattenberger.com/blog/d3-interactive-charts
+
 React hooks :
 * https://wattenberger.com/blog/react-and-d3
 * https://medium.com/@jeffbutsch/using-d3-in-react-with-hooks-4a6c61f1d102
@@ -16,8 +21,9 @@ React hooks :
 * https://swizec.com/blog/easy-d3-blackbox-components-react-hooks/swizec/8689
 
 React class component :
+* https://hackernoon.com/how-and-why-to-use-d3-with-react-d239eb1ea274/
 * https://www.smashingmagazine.com/2018/02/react-d3-ecosystem/
 * https://gist.github.com/alexcjohnson/a4b714eee8afd2123ee00cb5b3278a5f
 * https://blog.logrocket.com/data-visualization-in-react-using-react-d3-c35835af16d0/
 * https://www.freecodecamp.org/news/how-to-get-started-with-d3-and-react-c7da74a5bd9f/
-* https://hackernoon.com/how-and-why-to-use-d3-with-react-d239eb1ea274/
+* https://grafana.com/tutorials/build-a-panel-plugin-with-d3/#6
