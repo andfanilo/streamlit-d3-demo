@@ -90,6 +90,14 @@ const D3Component = (props: ComponentProps) => {
                             el.transition().duration(transitionMillisec)
                                 .attr("r", 15)
                         )
+                        .on("mouseover", (d, i, ns) =>
+                            d3.select(ns[i]).transition().duration(150)
+                                .attr("fill", "orange")
+                        )
+                        .on("mouseout", (d, i, ns) =>
+                            d3.select(ns[i]).transition().duration(150)
+                                .attr("fill", "cornflowerblue")
+                        )
                 ),
                 update => update.call(el =>
                     el.transition().duration(transitionMillisec)
@@ -97,7 +105,9 @@ const D3Component = (props: ComponentProps) => {
                         .attr("r", 15)
                 ),
                 exit => (
-                    exit.call(el =>
+                    exit.on("mouseover", null)
+                        .on("mouseout", null)
+                        .call(el =>
                         el.transition().duration(transitionMillisec / 2)
                             .attr("r", 0)
                             .attr("fill", "tomato")

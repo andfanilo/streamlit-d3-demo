@@ -22,7 +22,10 @@ they will cause a possible variable undefined error._
 * debounce and update problem on circles, Streamlit updates multiple times, readd color blue and radius on update, because circles are entered then 
 updated immediately, I should debounce on my side..
 * try to fill on mouseover but [d3.select(this)](https://stackoverflow.com/questions/23703089/d3-js-change-color-and-size-on-line-graph-dot-on-mouseover) 
-doesn't like me, but [here](https://dev.to/benjaminadk/basketball-stats-through-d3-react-4m10) it works ?
+doesn't like me, but [here](https://dev.to/benjaminadk/basketball-stats-through-d3-react-4m10) it works ? workaround :
+with _this_ as the current DOM element (nodes[i]) so I just put nodes[i].
+* doing mouseover. fun fact but if during exit I mouseover then element is not removed XD
+* there's a resize observer on Streamlit that spawns rerenders ? This reruns line updates too so line stays grey huum
 
 ## References
 
