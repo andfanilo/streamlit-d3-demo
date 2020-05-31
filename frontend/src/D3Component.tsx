@@ -45,7 +45,7 @@ const D3Component = (props: ComponentProps) => {
             .attr("transform", `translate(${margin.left}, 0)`)
     }, [margin.bottom, margin.left, svgHeight])
 
-    // update axis
+    // create / update axis
     useEffect(() => {
         const svgElement = d3.select(ref.current)
 
@@ -56,7 +56,7 @@ const D3Component = (props: ComponentProps) => {
         svgElement.select(".yAxis").transition().duration(transitionMillisec).call(yAxis);
     }, [xScale, yScale])
 
-    // update circles
+    // create / update circles
     useEffect(() => {
         const svgElement = d3.select(ref.current)
 
@@ -91,18 +91,17 @@ const D3Component = (props: ComponentProps) => {
             )
     }, [data, xScale, yScale])
 
-    // update line
+    // create / update line
     useEffect(() => {
         const svgElement = d3.select(ref.current)
         svgElement.select(".line").selectAll("path")
-            .data([data], (d: any) => d)
+            .data([data]) // array with 1 element it's keyed by index, enters once then updates
             .join(
                 enter => enter.append("path")
                     .attr("d", (d: any) => line(d))
                     .attr("stroke", "black")
                     .attr("fill", "none"),
-                update => update,
-                exit => exit.remove()
+                update => update.attr("d", (d: any) => line(d)),
             )
     }, [data, line])
 
