@@ -84,19 +84,19 @@ const D3Component = (props: ComponentProps) => {
                         .attr("cy", (d: any) => yScale(d[1]))
                         .attr("fill", "cornflowerblue")
                         .attr("r", 0)
-                        .call(enter =>
-                            enter.transition().duration(transitionMillisec)
+                        .call(el =>
+                            el.transition().duration(transitionMillisec)
                                 .attr("r", 15)
                         )
                 ),
-                update => update.call(update =>
-                    update.transition().duration(transitionMillisec)
+                update => update.call(el =>
+                    el.transition().duration(transitionMillisec)
                         .attr("cy", (d: any) => yScale(d[1]))
                         .attr("r", 15)
                 ),
                 exit => (
-                    exit.call(exit =>
-                        exit.transition().duration(transitionMillisec / 2)
+                    exit.call(el =>
+                        el.transition().duration(transitionMillisec / 2)
                             .attr("r", 0)
                             .attr("fill", "tomato")
                             .style("opacity", 0)
@@ -121,8 +121,17 @@ const D3Component = (props: ComponentProps) => {
                 enter => enter.append("path")
                     .attr("d", (d: any) => line(d))
                     .attr("stroke", "black")
-                    .attr("fill", "none"),
-                update => update.attr("d", (d: any) => line(d)),
+                    .attr("fill", "none")
+                    .attr("opacity", 0)
+                    .call(el => el.transition().duration(transitionMillisec)
+                        .attr("opacity", 1)
+                    ),
+                update => update
+                    .attr("opacity", 0.2)
+                    .call(el =>
+                    el.transition().duration(transitionMillisec)
+                        .attr("d", (d: any) => line(d)).attr("opacity", 1)
+                ),
             )
     })
 
