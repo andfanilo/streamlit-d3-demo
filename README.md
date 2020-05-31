@@ -10,6 +10,7 @@ Would also like to try :
 
 D3 :
 * https://observablehq.com/@d3/learn-d3
+* https://observablehq.com/@d3/margin-convention
 * https://wattenberger.com/blog/d3
 * https://wattenberger.com/blog/d3-interactive-charts
 

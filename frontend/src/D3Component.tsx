@@ -2,14 +2,24 @@ import React, {useEffect, useRef} from "react"
 import {ComponentProps, Streamlit, withStreamlitConnection,} from "./streamlit"
 import * as d3 from "d3";
 
+interface D3Margin {
+    top: number
+    bottom: number
+    left: number
+    right: number
+}
+
+interface PythonArgs {
+    svgWidth: number
+    svgHeight: number
+    margin: D3Margin
+    data: Array<Array<[number, number]>>
+}
+
 const D3Component = (props: ComponentProps) => {
 
     const ref = useRef(null)
-
-    const svgWidth = props.args.width
-    const svgHeight = props.args.height
-    const margin = {top: 20, right: 20, bottom: 20, left: 20}
-    const data: Array<Array<[number, number]>> = props.args.data
+    const {svgWidth, svgHeight, margin, data}: PythonArgs = props.args
 
     // study for typîng max https://stackoverflow.com/questions/53480421/d3-max-in-typescript-returns-a-string
     const xScale = d3.scaleLinear()
@@ -22,12 +32,31 @@ const D3Component = (props: ComponentProps) => {
         .x(d => xScale(d[0]))
         .y(d => yScale(d[1]))
 
-    // on mount, create containers for circles and line
+    // on mount, create containers for circles, line and axis
     useEffect(() => {
         const svgElement = d3.select(ref.current)
         svgElement.append("g").classed('circles', true)
         svgElement.append("g").classed('line', true)
-    }, [])
+        svgElement.append("g")
+            .classed('xAxis', true)
+            .attr("transform", `translate(0, ${svgHeight - margin.bottom})`)
+        svgElement.append("g")
+            .classed('yAxis', true)
+            .attr("transform", `translate(${margin.left}, 0)`)
+    }, [margin.bottom, margin.left, svgHeight])
+
+    // update axis
+    useEffect(() => {
+        const svgElement = d3.select(ref.current)
+
+        const xAxis = (g: any) => g
+            .call(d3.axisBottom(xScale))
+        const yAxis = (g: any) => g
+            .call(d3.axisLeft(yScale))
+
+        svgElement.select(".xAxis").call(xAxis);
+        svgElement.select(".yAxis").call(yAxis);
+    }, [xScale, yScale])
 
     // update data
     useEffect(() => {
@@ -76,6 +105,7 @@ const D3Component = (props: ComponentProps) => {
             )
     })
 
+    // in case, update height
     useEffect(() => {
         Streamlit.setFrameHeight()
     })
