@@ -20,6 +20,8 @@ interface d3Margin {
 interface PythonArgs {
     svgWidth: number
     svgHeight: number
+    circleRadius: number
+    circleColor: string
     margin: d3Margin
     data: Array<Array<[number, number]>>
 }
@@ -43,7 +45,7 @@ const buildScales = (args: PythonArgs) => {
 const D3Component = (props: ComponentProps) => {
 
     const svgRef = useRef(null)
-    const {svgWidth, svgHeight, margin, data}: PythonArgs = props.args
+    const {svgWidth, svgHeight, circleRadius, circleColor, margin, data}: PythonArgs = props.args
     const transitionMillisec = 1200
 
     // On mount, create group containers for circles, path and both axis
@@ -85,10 +87,10 @@ const D3Component = (props: ComponentProps) => {
                         .classed(styles.circle, true)
                         .attr("cx", (d: any) => xScale(d[0]))
                         .attr("cy", (d: any) => yScale(d[1]))
-                        .attr("fill", "cornflowerblue")
+                        .attr("fill", circleColor)
                         .attr("r", 0)
                         // Transition from invisible to visible circle
-                        .call(el => el.transition().duration(transitionMillisec).attr("r", 15))
+                        .call(el => el.transition().duration(transitionMillisec).attr("r", circleRadius))
                         // Add d3 mouseover to display and move tooltip around
                         .on("mouseover", (d: any, i, ns) => {
                             const [x, y] = d3.mouse(ns[i])
@@ -109,8 +111,9 @@ const D3Component = (props: ComponentProps) => {
                         .attr("cy", (d: any) => yScale(d[1]))
                         // NB : keep radius value, it seems in Streamlit lifecycle there are 2 renders when mounting ?
                         // so circles enter and during transition to full radius rerender
-                        // so if r < 15 while update then animation breaks and circle stay small for first render
-                        .attr("r", 15)
+                        // so if r < circleRadius while update then animation breaks and circle stay small for first render
+                        .attr("r", circleRadius)
+                        .attr("fill", circleColor)
                 ),
                 exit => (
                     // Close tooltip and remove mouse events
