@@ -2,6 +2,8 @@ import React, {useEffect, useRef} from "react"
 import {ComponentProps, Streamlit, withStreamlitConnection,} from "./streamlit"
 import * as d3 from "d3";
 
+import styles from './D3Component.module.css'
+
 interface d3Margin {
     top: number
     bottom: number
@@ -14,16 +16,6 @@ interface PythonArgs {
     svgHeight: number
     margin: d3Margin
     data: Array<Array<[number, number]>>
-}
-
-interface TooltipProps {
-    x: number
-    y: number
-    datum: number
-}
-
-const Tooltip = (props: TooltipProps) => {
-    return <div/>
 }
 
 const buildScales = (args: PythonArgs) => {
@@ -41,13 +33,13 @@ const buildScales = (args: PythonArgs) => {
 
 const D3Component = (props: ComponentProps) => {
 
-    const ref = useRef(null)
+    const svgRef = useRef(null)
     const {svgWidth, svgHeight, margin, data}: PythonArgs = props.args
     const transitionMillisec = 1200
 
     // on mount, create containers for circles, line and axis
     useEffect(() => {
-        const svgElement = d3.select(ref.current)
+        const svgElement = d3.select(svgRef.current)
         svgElement.append("g").classed('circles', true)
         svgElement.append("g").classed('line', true)
         svgElement.append("g")
@@ -58,7 +50,7 @@ const D3Component = (props: ComponentProps) => {
 
     // create / update axis
     useEffect(() => {
-        const svgElement = d3.select(ref.current)
+        const svgElement = d3.select(svgRef.current)
         const [xScale, yScale] = buildScales(props.args)
 
         const xAxis = (g: any) => g.attr("transform", `translate(0, ${svgHeight - margin.bottom})`)
@@ -74,7 +66,7 @@ const D3Component = (props: ComponentProps) => {
 
     // create / update circles
     useEffect(() => {
-        const svgElement = d3.select(ref.current)
+        const svgElement = d3.select(svgRef.current)
         const [xScale, yScale] = buildScales(props.args)
 
         svgElement.select(".circles").selectAll("circle")
@@ -82,6 +74,7 @@ const D3Component = (props: ComponentProps) => {
             .join(
                 enter => (
                     enter.append("circle")
+                        .classed(styles.circle, true)
                         .attr("cx", (d: any) => xScale(d[0]))
                         .attr("cy", (d: any) => yScale(d[1]))
                         .attr("fill", "cornflowerblue")
@@ -90,14 +83,17 @@ const D3Component = (props: ComponentProps) => {
                             el.transition().duration(transitionMillisec)
                                 .attr("r", 15)
                         )
-                        .on("mouseover", (d, i, ns) =>
-                            d3.select(ns[i]).transition().duration(150)
-                                .attr("fill", "orange")
-                        )
-                        .on("mouseout", (d, i, ns) =>
-                            d3.select(ns[i]).transition().duration(150)
-                                .attr("fill", "cornflowerblue")
-                        )
+                        .on("mouseover", (d: any, i, ns) => {
+                            const [x, y] = d3.mouse(ns[i])
+                            d3.select(".tooltip")
+                                .attr("hidden", null)
+                                .style("left", `${x}px`)
+                                .style("top", `${y}px`)
+                                .text(`Data : ${d}`)
+                        })
+                        .on("mouseout", _ => {
+                            d3.select(".tooltip").attr("hidden", true)
+                        })
                 ),
                 update => update.call(el =>
                     el.transition().duration(transitionMillisec)
@@ -108,19 +104,19 @@ const D3Component = (props: ComponentProps) => {
                     exit.on("mouseover", null)
                         .on("mouseout", null)
                         .call(el =>
-                        el.transition().duration(transitionMillisec / 2)
-                            .attr("r", 0)
-                            .attr("fill", "tomato")
-                            .style("opacity", 0)
-                            .remove()
-                    )
+                            el.transition().duration(transitionMillisec / 2)
+                                .attr("r", 0)
+                                .attr("fill", "tomato")
+                                .style("opacity", 0)
+                                .remove()
+                        )
                 ),
             )
     })
 
     // create / update line
     useEffect(() => {
-        const svgElement = d3.select(ref.current)
+        const svgElement = d3.select(svgRef.current)
         const [xScale, yScale] = buildScales(props.args)
 
         const line = d3.line()
@@ -153,10 +149,13 @@ const D3Component = (props: ComponentProps) => {
     }, [svgHeight])
 
     return (
-        <svg
-            viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-            ref={ref}
-        />
+        <div>
+            <div className={`${styles.tooltip} tooltip`} hidden={true}/>
+            <svg
+                viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+                ref={svgRef}
+            />
+        </div>
     )
 }
 

@@ -24,7 +24,7 @@ updated immediately, I should debounce on my side..
 * try to fill on mouseover but [d3.select(this)](https://stackoverflow.com/questions/23703089/d3-js-change-color-and-size-on-line-graph-dot-on-mouseover) 
 doesn't like me, but [here](https://dev.to/benjaminadk/basketball-stats-through-d3-react-4m10) it works ? workaround :
 with _this_ as the current DOM element (nodes[i]) so I just put nodes[i].
-* doing mouseover. fun fact but if during exit I mouseover then element is not removed XD
+* doing mouseover. fun fact but if during exit I mouseover then element is not removed XD. Oh put fill change in css instead
 * there's a resize observer on Streamlit that spawns rerenders ? This reruns line updates too so line stays grey huum
 
 ## References
@@ -59,3 +59,5 @@ D3 + React class component :
 * https://blog.logrocket.com/data-visualization-in-react-using-react-d3-c35835af16d0/
 * https://www.freecodecamp.org/news/how-to-get-started-with-d3-and-react-c7da74a5bd9f/
 * https://grafana.com/tutorials/build-a-panel-plugin-with-d3/#6
+* https://stackoverflow.com/questions/49611148/how-to-add-tooltip-in-react-d3-v4-bar-chart
+* https://stackoverflow.com/questions/38116805/react-js-d3-charts-tooltip/56674517#56674517
