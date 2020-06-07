@@ -3,8 +3,8 @@ from typing import Dict
 
 import streamlit as st
 
-# d3 = st.declare_component(url="http://localhost:3001")  # for development, run `npm run start` beforehand
-d3 = st.declare_component(path="frontend/build")  # for production, run `npm run build` beforehand
+# d3 = st.declare_component(path="frontend/build")  # for production, run `npm run build` beforehand
+d3 = st.declare_component(url="http://localhost:3001")  # for development, run `npm run start` beforehand
 
 
 @st.cache
