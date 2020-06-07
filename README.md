@@ -1,31 +1,47 @@
-# D3 in Streamlit
+# D3 Demo in Streamlit
 
-Testing D3 in React hooks in Streamlit !
+Testing D3 in React hooks in Streamlit ! Feel free to grab the inspiration :).
 
-Would also like to try :
-* code splitting, by selectively loading D3 modules 
-* multiple component entry points
+![](./images/demo.gif)
 
-## Steps
+## Install
 
-* Build an svg, select it through useRef then append circles like classic d3. [Ask yourself](https://wattenberger.com/blog/react-and-d3) lots of existential questions
-on d3 mutating things React would like to manage...https://medium.com/stationfive/how-to-create-a-pie-chart-with-d3-js-and-react-hooks-part-1-81bcd7f39b32 and
-https://www.youtube.com/playlist?list=PLDZ4p-ENjbiPo4WH7KdHjh_EMI7Ic8b2B got me to stick to react hooks
-* Add path and be happy :)
-* Append group containers on mount and mutate those groups with d3
-* Fight with TS typing on d3, [put type any at the end](https://spin.atomicobject.com/2017/07/20/d3-react-typescript/) 
-because _One important thing to note is that when you set variables from a D3 operator, the variable type will need to 
-be set to any. This is because D3 types can be a bit lengthy to use unless you extend, and in some cases, 
-they will cause a possible variable undefined error._
-* Update axis, circles and path yay by entering/removing everything 
-* Learn to key join on path to only update, not append/remove each time
-* debounce and update problem on circles, Streamlit updates multiple times, readd color blue and radius on update, because circles are entered then 
-updated immediately, I should debounce on my side..
-* try to fill on mouseover but [d3.select(this)](https://stackoverflow.com/questions/23703089/d3-js-change-color-and-size-on-line-graph-dot-on-mouseover) 
-doesn't like me, but [here](https://dev.to/benjaminadk/basketball-stats-through-d3-react-4m10) it works ? workaround :
-with _this_ as the current DOM element (nodes[i]) so I just put nodes[i].
-* doing mouseover. fun fact but if during exit I mouseover then element is not removed XD. Oh put fill change in css instead
-* there's a resize observer on Streamlit that spawns rerenders ? This reruns line updates too so line stays grey huum
+* Python side 
+
+```shell script
+conda create -n streamlit-d3 python=3.7
+conda activate streamlit-echarts
+pip install streamlit-0.59.0-py2.py3-none-any.whl 
+```
+
+* JS side (development)
+
+```shell script
+cd frontend
+npm install
+```
+
+## Run
+
+* JS side (development)
+
+```shell script
+cd frontend
+npm run start
+```
+
+* JS side (build for production)
+
+```shell script
+cd frontend
+npm run build
+```
+
+* Python
+
+```shell script
+streamlit run app.py
+```
 
 ## References
 
@@ -61,3 +77,25 @@ D3 + React class component :
 * https://grafana.com/tutorials/build-a-panel-plugin-with-d3/#6
 * https://stackoverflow.com/questions/49611148/how-to-add-tooltip-in-react-d3-v4-bar-chart
 * https://stackoverflow.com/questions/38116805/react-js-d3-charts-tooltip/56674517#56674517
+
+
+## Steps
+
+* Build an svg, select it through useRef then append circles like classic d3. [Ask yourself](https://wattenberger.com/blog/react-and-d3) lots of existential questions
+on d3 mutating things React would like to manage...https://medium.com/stationfive/how-to-create-a-pie-chart-with-d3-js-and-react-hooks-part-1-81bcd7f39b32 and
+https://www.youtube.com/playlist?list=PLDZ4p-ENjbiPo4WH7KdHjh_EMI7Ic8b2B got me to stick to react hooks
+* Add path and be happy :)
+* Append group containers on mount and mutate those groups with d3
+* Fight with TS typing on d3, [put type any at the end](https://spin.atomicobject.com/2017/07/20/d3-react-typescript/) 
+because _One important thing to note is that when you set variables from a D3 operator, the variable type will need to 
+be set to any. This is because D3 types can be a bit lengthy to use unless you extend, and in some cases, 
+they will cause a possible variable undefined error._
+* Update axis, circles and path yay by entering/removing everything 
+* Learn to key join on path to only update, not append/remove each time
+* debounce and update problem on circles, Streamlit updates multiple times, readd color blue and radius on update, because circles are entered then 
+updated immediately, I should debounce on my side..
+* try to fill on mouseover but [d3.select(this)](https://stackoverflow.com/questions/23703089/d3-js-change-color-and-size-on-line-graph-dot-on-mouseover) 
+doesn't like me, but [here](https://dev.to/benjaminadk/basketball-stats-through-d3-react-4m10) it works ? workaround :
+with _this_ as the current DOM element (nodes[i]) so I just put nodes[i].
+* doing mouseover. fun fact but if during exit I mouseover then element is not removed XD. Oh put fill change in css instead
+* there's a resize observer on Streamlit that spawns rerenders ? This reruns line updates too so line stays grey huum
