@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="streamlit-d3-demo",
-    version="0.0.1",
+    version="0.1.0",
     author="Fanilo ANDRIANASOLO",
     author_email="andfanilo@gmail.com",
     description="Testing D3 in React hooks in Streamlit",

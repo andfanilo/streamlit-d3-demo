@@ -6,41 +6,48 @@ Testing D3 in React hooks in Streamlit ! Feel free to grab the inspiration :).
 
 ## Install
 
-* Python side 
-
 ```shell script
-conda create -n streamlit-d3 python=3.7
-conda activate streamlit-d3
-pip install streamlit*.whl
+pip install -i https://test.pypi.org/simple/ --no-deps streamlit-d3-demo
 ```
 
-* JS side (development)
+## Run
+
+```shell script
+streamlit run app.py
+```
+
+## Development 
+
+### Install
+
+* JS side
 
 ```shell script
 cd frontend
 npm install
 ```
 
-## Run
+* Python side 
 
-* JS side (development)
+```shell script
+conda create -n streamlit-d3 python=3.7
+conda activate streamlit-d3
+pip install streamlit-0.61.0-py2.py3-none-any.whl
+```
+
+### Run
+
+* JS side
 
 ```shell script
 cd frontend
 npm run start
 ```
 
-* JS side (build for production)
+* Python side
 
 ```shell script
-cd frontend
-npm run build
-```
-
-* Python
-
-```shell script
-streamlit run streamlit-d3-demo/__init__.py
+streamlit run app.py
 ```
 
 ## References
