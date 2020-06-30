@@ -142,7 +142,7 @@ const D3Component = (props: ComponentProps) => {
             .y(d => yScale(d[1]))
 
         svgElement.select(".line").selectAll("path")
-            .data([data]) // array with 1 element keyed by index, so enters once then only updates
+            .data([data]) // Array with 1 element keyed by index, so enters once then only updates
             .join(
                 enter => enter.append("path")
                     .attr("d", (d: any) => line(d))
@@ -160,7 +160,7 @@ const D3Component = (props: ComponentProps) => {
             )
     })
 
-    // just in case, update height
+    // Just in case, update height
     useEffect(() => {
         Streamlit.setFrameHeight()
     }, [svgHeight])

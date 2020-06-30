@@ -1,6 +1,14 @@
 # D3 Demo in Streamlit
 
-Testing D3 in React hooks in Streamlit ! Feel free to grab the inspiration :).
+An example project for a custom D3 chart _with React hooks_ into Streamlit. 
+
+* Dynamic line chart
+* Overlapping scatter plot, with customizable size/color
+* Interactive tooltip
+* TODO : Select a circle and return it's value
+* TODO : Zoom/Pan ?
+
+Feel free to fork this project as a starter for your own D3 components.
 
 ![](./images/demo.gif)
 
@@ -14,13 +22,12 @@ pip install -i https://test.pypi.org/simple/ streamlit-d3-demo
 
 ```python
 import random
-import streamlit as st
-from streamlit_d3_demo import d3
+from streamlit_d3_demo import d3_line
 
 def generate_random_data(x_r, y_r):
     return list(zip(range(x_r), [random.randint(0, y_r) for _ in range(x_r)]))
 
-d3(generate_random_data(20, 500), circle_radius=15, circle_color="#6495ed")
+d3_line(generate_random_data(20, 500), circle_radius=15, circle_color="#6495ed")
 ```
 
 ## Development 
@@ -39,10 +46,12 @@ npm install
 ```shell script
 conda create -n streamlit-d3 python=3.7
 conda activate streamlit-d3
-pip install streamlit-0.61.0-py2.py3-none-any.whl
+pip install -e .
 ```
 
 ### Run
+
+Both JS and Python should run at the same time.
 
 * JS side
 
@@ -93,7 +102,7 @@ D3 + React class component :
 * https://stackoverflow.com/questions/38116805/react-js-d3-charts-tooltip/56674517#56674517
 
 
-## Steps
+## My notes on the project
 
 * Build an svg, select it through useRef then append circles like classic d3. [Ask yourself](https://wattenberger.com/blog/react-and-d3) lots of existential questions
 on d3 mutating things React would like to manage...https://medium.com/stationfive/how-to-create-a-pie-chart-with-d3-js-and-react-hooks-part-1-81bcd7f39b32 and
