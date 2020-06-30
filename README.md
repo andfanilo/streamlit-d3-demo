@@ -7,13 +7,20 @@ Testing D3 in React hooks in Streamlit ! Feel free to grab the inspiration :).
 ## Install
 
 ```shell script
-pip install -i https://test.pypi.org/simple/ --no-deps streamlit-d3-demo
+pip install -i https://test.pypi.org/simple/ streamlit-d3-demo
 ```
 
-## Run
+## Example Usage
 
-```shell script
-streamlit run app.py
+```python
+import random
+import streamlit as st
+from streamlit_d3_demo import d3
+
+def generate_random_data(x_r, y_r):
+    return list(zip(range(x_r), [random.randint(0, y_r) for _ in range(x_r)]))
+
+d3(generate_random_data(20, 500), circle_radius=15, circle_color="#6495ed")
 ```
 
 ## Development 
