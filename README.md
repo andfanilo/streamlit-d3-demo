@@ -15,7 +15,7 @@ Feel free to fork this project as a starter for your own D3 components.
 ## Install
 
 ```shell script
-pip install -i https://test.pypi.org/simple/ streamlit-d3-demo
+pip install streamlit-d3-demo
 ```
 
 ## Example Usage
